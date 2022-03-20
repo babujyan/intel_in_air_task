@@ -24,3 +24,6 @@ class ClassificationModel(pl.LightningModule):
 
     def validation_epoch_end(self):
         pass
+
+    def configure_optimizers(self):
+        return super().configure_optimizers()
