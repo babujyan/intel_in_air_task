@@ -1,0 +1,3 @@
+dataloader_config: "dataloader.yaml"
+model_config: "model.yaml"
+trainer_config: "trainer.yaml"
