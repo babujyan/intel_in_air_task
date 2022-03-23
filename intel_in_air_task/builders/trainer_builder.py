@@ -1,24 +1,27 @@
 import torch
 from pytorch_lightning import Trainer
-from intel_in_air_task.utils.general_utils import read_yaml
+from pytorch_lightning.loggers import TensorBoardLogger
+from utils.general_utils import read_yaml
 
 
 class TrainerBuilder:
     def __init__(self, config_path):
         self.config = read_yaml(config_path)
-    
-    def get_logger(self):
-        pass
+        self.logger_dir = self.config.pop('logger_dir')
 
+    def get_logger(self):
+        return TensorBoardLogger(save_dir=self.logger_dir, name='', version='')
 
     def get_callbacks(self):
         pass
 
+    @property
     def build(self):
         logger = self.get_logger()
-        callbacks = self.get_callbacks()
-        trainer = Trainer(**self.config,
-                          logger=logger,
-                          callbacks=callbacks,
-                          )
+        trainer = Trainer(
+            **self.config,
+            weights_summary=None,
+            num_sanity_val_steps=0,
+            logger=logger
+        )
         return trainer

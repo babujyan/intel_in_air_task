@@ -1,0 +1,9 @@
+#gpus: [0]
+accumulate_grad_batches: 20
+max_epochs: 50
+accelerator: 'ddp'
+num_nodes: 1
+sync_batchnorm: True
+precision: 32
+val_check_interval: 0.2
+logger_dir: "experiments"

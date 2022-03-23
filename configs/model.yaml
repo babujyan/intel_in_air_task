@@ -1,0 +1,2 @@
+device: 'cpu'
+unet_pretrained: "/home/mane/Downloads/unet_carvana_scale0.5_epoch2.pth"
