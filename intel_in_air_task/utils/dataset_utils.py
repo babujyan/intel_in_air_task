@@ -7,7 +7,7 @@ from rasterio.mask import mask
 from shapely.geometry import mapping
 import geopandas as gpd
 import fiona
-
+from hashlib import sha512
 
 def read_fiona(sph_file):
     with fiona.open(sph_file, "r") as shapefile:
@@ -28,13 +28,19 @@ def rgb_tif_tuple(subfolder):
 
 def read_raster(input_raster, geoms):
     with rasterio.open(input_raster) as src:
-        out_image, out_transform = mask(src, geoms, crop=True)
+        out_image, out_transform = mask(src, geoms, invert=True)
         return out_image, out_transform
 
 def get_crop(pathToRaster, geom):
     input_raster = gdal.Open(pathToRaster)
-    output_raster = r'./cngdp2010_adjust.tif'
+    output_raster = sha512(pathToRaster.encode('utf-8')).hexdigest() + ".tif"
     gdal.Warp(output_raster, input_raster, dstSRS='EPSG:4326', dstNodata=0)
     out_image, out_transform = read_raster(output_raster, geom)
-    # output_raster.close()
+
+    # If file exists, delete it
+    if os.path.isfile(output_raster):
+        os.remove(output_raster)
+    else:  # Show an error
+        print("Error: %s file not found" % output_raster)
+
     return out_image

@@ -2,7 +2,7 @@ import torch
 from torch import nn
 import numpy as np
 import pytorch_lightning as pl
-
+from torch.nn.functional import one_hot
 
 class ClassificationModel(pl.LightningModule):
 
@@ -15,10 +15,11 @@ class ClassificationModel(pl.LightningModule):
         self.bn1 = nn.BatchNorm2d(500)
         self.bn2 = nn.BatchNorm2d(100)
         self.act = nn.ReLU()
-        self.loss = nn.CrossEntropyLoss()
+        self.loss = nn.NLLLoss()
         self.last_fc = nn.Linear(64, num_classes)
         self.flatten = nn.Flatten(start_dim=1, end_dim=-1)
-        self.softmax = nn.Softmax(dim=1)
+        self.softmax = nn.LogSoftmax(dim=1)
+        self.num_classes = num_classes
     
     def forward(self, input):
         output = self.unet(input)
@@ -35,11 +36,11 @@ class ClassificationModel(pl.LightningModule):
         return output
 
     def training_step(self, batch):
-        image, l = batch
+        image, label = batch
         result = self.forward(image)
-        loss = self.loss(l, result)
+        print(one_hot(label, num_classes=self.num_classes), result)
+        loss = self.loss(one_hot(label, num_classes=self.num_classes), result)
         return {"loss": loss}
-
 
     def validation_step(self, batch):
         image, l = batch

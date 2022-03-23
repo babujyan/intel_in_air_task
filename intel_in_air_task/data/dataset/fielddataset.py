@@ -44,7 +44,6 @@ class FieldDataset(Dataset):
         red = torch.Tensor(get_crop(paths['red_path'], geom))
         blue = torch.Tensor(get_crop(paths['blue_path'], geom))
         green = torch.Tensor(get_crop(paths['green_path'], geom))
-        l = [self.normalize(self.resize(i)) for i in [red, green, blue]]
-        print(l[0].shape)
-        img = torch.cat(l, dim=0)
+        img = torch.cat([red, green, blue], dim=0)
+        img = self.normalize(self.resize(img))
         return img, torch.Tensor([label])

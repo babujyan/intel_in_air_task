@@ -131,3 +131,6 @@ dmypy.json
 #Pycharm folders
 .idea/
 .tmp/
+
+#images
+*.tif
