@@ -134,3 +134,6 @@ dmypy.json
 
 #images
 *.tif
+
+#model checkpoints
+experiments/

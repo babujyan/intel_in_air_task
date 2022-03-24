@@ -1,5 +1,6 @@
 label_csv_path: "/home/mane/Desktop/field_state_classification/final_data.CSV"
 batch_size: 2
-num_workers: 4
+num_workers: 8
 shuffle: True
 data_dir: "/home/mane/Desktop/"
+validation_size: 0.2

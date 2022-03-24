@@ -1,4 +1,3 @@
-import torch
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger
 from utils.general_utils import read_yaml
@@ -10,12 +9,13 @@ class TrainerBuilder:
         self.logger_dir = self.config.pop('logger_dir')
 
     def get_logger(self):
-        return TensorBoardLogger(save_dir=self.logger_dir, name='', version='')
+        return TensorBoardLogger(save_dir=self.logger_dir,
+                                 name='',
+                                 version='')
 
     def get_callbacks(self):
         pass
 
-    @property
     def build(self):
         logger = self.get_logger()
         trainer = Trainer(

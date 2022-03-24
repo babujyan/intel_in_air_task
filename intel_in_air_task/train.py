@@ -18,7 +18,8 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         "--data_config",
-        help="path to the config where the data/dataloader parameters are specified",
+        help="path to the config where the data/dataloader "
+             "parameters are specified",
         default="configs/dataloader.yaml"
     )
 
@@ -27,8 +28,9 @@ if __name__ == "__main__":
     trainer_builder = TrainerBuilder(args.trainer_config)
     model_builder = ModelBuilder(args.model_config)
     dataloader_builder = DataloaderBuilder(args.data_config)
-    trainer = trainer_builder.build
+    trainer = trainer_builder.build()
     model = model_builder.build()
     train_dataloader = dataloader_builder.build("train")
     validation_dataloader = dataloader_builder.build("validation")
-    trainer.fit(model, train_dataloader=train_dataloader, val_dataloaders=validation_dataloader)
+    trainer.fit(model, train_dataloader=train_dataloader,
+                val_dataloaders=validation_dataloader)

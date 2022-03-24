@@ -1,2 +1,8 @@
 device: 'cpu'
 unet_pretrained: "/home/mane/Downloads/unet_carvana_scale0.5_epoch2.pth"
+optimizer:
+  lr: 0.01
+  scheduler:
+    gamma: 0.9
+
+ckpt_file: "/home/mane/Desktop/intel_in_air_task/experiments/checkpoints/epoch=0-step=0.ckpt"
