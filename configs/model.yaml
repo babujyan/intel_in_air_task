@@ -1,7 +1,7 @@
 device: 'cpu'
 unet_pretrained: "/home/mane/Downloads/unet_carvana_scale0.5_epoch2.pth"
 optimizer:
-  lr: 0.01
+  lr: 0.1
   scheduler:
     gamma: 0.9
 

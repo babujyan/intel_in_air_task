@@ -1,9 +1,18 @@
-#gpus: [0]
-accumulate_grad_batches: 20
-max_epochs: 50
-accelerator: 'ddp'
-num_nodes: 1
-sync_batchnorm: True
-precision: 32
-val_check_interval: 1
-logger_dir: "experiments"
+trainer:
+    accumulate_grad_batches: 20
+    max_epochs: 50
+    accelerator: 'ddp'
+    num_nodes: 1
+    sync_batchnorm: True
+    precision: 32
+    val_check_interval: 0.5
+    logger_dir: "experiments"
+
+callback:
+    monitor: "val_loss"
+    filename: "{epoch:02d}-{val_loss:.6f}"
+    save_top_k: 5
+    verbose: True
+    save_last: True
+    mode: "min"
+    every_n_epochs: 3

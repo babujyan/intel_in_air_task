@@ -1,12 +1,13 @@
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.callbacks import ModelCheckpoint
 from utils.general_utils import read_yaml
 
 
 class TrainerBuilder:
     def __init__(self, config_path):
         self.config = read_yaml(config_path)
-        self.logger_dir = self.config.pop('logger_dir')
+        self.logger_dir = self.config['trainer'].pop('logger_dir')
 
     def get_logger(self):
         return TensorBoardLogger(save_dir=self.logger_dir,
@@ -14,14 +15,16 @@ class TrainerBuilder:
                                  version='')
 
     def get_callbacks(self):
-        pass
+        return [ModelCheckpoint(**self.config['callback'])]
 
     def build(self):
         logger = self.get_logger()
+        callbacks = self.get_callbacks()
         trainer = Trainer(
-            **self.config,
+            **self.config['trainer'],
             weights_summary=None,
             num_sanity_val_steps=0,
-            logger=logger
+            logger=logger,
+            callbacks=callbacks
         )
         return trainer
