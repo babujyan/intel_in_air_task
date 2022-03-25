@@ -8,6 +8,12 @@ from data.data_label_mapping import reverse_mapping
 
 class ClassificationModel(pl.LightningModule):
     def __init__(self, unet, num_classes, optim_config):
+        """
+        Model constructor
+        :param unet: backbone model
+        :param num_classes: number of classes
+        :param optim_config: optimizer configs
+        """
         super(ClassificationModel, self).__init__()
         self.unet = unet
         self.conv1 = nn.Conv2d(1024, 500, 5)
@@ -24,6 +30,11 @@ class ClassificationModel(pl.LightningModule):
         self.optim_config = optim_config
 
     def forward(self, input_img):
+        """
+        forward propagation
+        :param input_img: image input
+        :return: output mask
+        """
         output = self.unet(input_img)
         output = self.conv1(output)
         output = self.bn1(output)

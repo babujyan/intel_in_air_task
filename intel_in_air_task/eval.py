@@ -38,7 +38,6 @@ if __name__ == "__main__":
                                args.green_path,
                                args.boundary_path)
     img = img.unsqueeze(dim=0)
-    print(img.shape)
     trainer_builder = TrainerBuilder(args.trainer_config)
     trainer = trainer_builder.build()
     result = trainer.predict(model, img)

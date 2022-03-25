@@ -19,6 +19,13 @@ from data.data_label_mapping import mapping
 class FieldDataset(Dataset):
     def __init__(self, label_csv_path,
                  data_dir="data", validation_size=0.2, mode='train'):
+        """
+        For image transformation and augmentations
+        :param label_csv_path:
+        :param data_dir:
+        :param validation_size:
+        :param mode:
+        """
         super().__init__()
         label_csv = pd.read_csv(label_csv_path)
         if "mode" not in label_csv:
@@ -42,6 +49,8 @@ class FieldDataset(Dataset):
                         self.data_dir, urlparse(v).path[1:]
                     ) for k, v in json.loads(d.replace("'", "\"")).items()},
                     label_csv.loc[i]["Label"]))
+
+        # Random cropping the image
         self.crop = RandomCrop(128)
         self.jitter = ColorJitter(0.5, 0.5, 0.2, 0.4)
         self.composed = Compose([RandomCrop(128),
